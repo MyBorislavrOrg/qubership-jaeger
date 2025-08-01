@@ -90,6 +90,7 @@ jobs:
         component: ${{ fromJson(needs.prepare.outputs.components) }}
     steps:
     - name: Docker
+      id: docker
       uses: netcracker/qubership-workflow-hub/actions/docker-action@main
       with:
         ref: ${{ github.ref }}
@@ -106,7 +107,7 @@ jobs:
       uses: docker/scout-action@v1
       with:
         command: cves,recommendations
-        image: ${{ needs.prepare.outputs.metadata }}
+        image: ${{ steps.docker.outputs.CONTAINER_NAME }}:${{ steps.docker.outputs.prepared_tags || steps.docker.outputs.tags }}
         sarif-file: sarif.output.json
         summary: true
         ignore-base: false
