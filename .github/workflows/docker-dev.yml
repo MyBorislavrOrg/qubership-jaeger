@@ -107,7 +107,7 @@ jobs:
       uses: docker/scout-action@v1
       with:
         command: cves,recommendations
-        image: ${{ fromJson(steps.docker.outputs.metadata)."image.name" }}
+        image: ${{ fromJson(needs.prepare.outputs.metadata)[0] }}
         sarif-file: sarif.output.json
         summary: true
         ignore-base: false
