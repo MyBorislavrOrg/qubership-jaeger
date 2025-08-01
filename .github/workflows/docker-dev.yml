@@ -109,7 +109,7 @@ jobs:
       with:
         command: cves,recommendations
         image: ${{ steps.docker.outputs.image_name }}
-        sarif-file: ${{ steps.docker.outputs.image_name }}.sarif.output.json
+        sarif-file: sarif.output.json
         summary: true
         ignore-base: false
         dockerhub-user: ${{ secrets.DOCKER_IO_USER }}
@@ -120,4 +120,4 @@ jobs:
       if: ${{ github.event_name != 'pull_request_target' }}
       uses: github/codeql-action/upload-sarif@v3
       with:
-        sarif_file: ${{ steps.docker.outputs.image_name }}.sarif.output.json
+        sarif_file: sarif.output.json
