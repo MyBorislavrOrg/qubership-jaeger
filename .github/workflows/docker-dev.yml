@@ -92,7 +92,7 @@ jobs:
     steps:
     - name: Docker
       id: docker
-      uses: netcracker/qubership-workflow-hub/actions/docker-action@main
+      uses: netcracker/qubership-workflow-hub/actions/docker-action@feature/docker-action-improvement
       with:
         ref: ${{ github.ref }}
         dry-run: ${{ inputs.dry-run }}
@@ -108,7 +108,7 @@ jobs:
       uses: docker/scout-action@v1
       with:
         command: cves,recommendations
-        image: ${{ toJson(needs.prepare.outputs.metadata)[0] }}
+        image: ${{ toJson(steps.docker.outputs.image_name)[0] }}
         sarif-file: sarif.output.json
         summary: true
         ignore-base: false
