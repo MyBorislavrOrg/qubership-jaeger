@@ -1,8 +1,14 @@
 name: Anchore Scan
 on:
   workflow_dispatch
+permissions:
+  contents: read
 jobs:
   anchore:
+    permissions:
+      contents: read
+      security-events: write
+
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
