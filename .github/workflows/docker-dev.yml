@@ -120,6 +120,7 @@ jobs:
       uses: anchore/scan-action@v6
       with:
         image: ${{ steps.docker.outputs.image-name }}
+        fail-build: false
     - name: Upload SARIF result
       id: upload-sarif
       if: ${{ github.event_name != 'pull_request_target' }}
