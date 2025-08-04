@@ -13,3 +13,12 @@ jobs:
         uses: xeol-io/xeol-action@v1.0.7
         with:
           path: "."
+      - name: Scan current project
+        id: xeol-scan-json
+        uses: xeol-io/xeol-action@v1.0.7
+        with:
+          path: "."
+          output-format: json
+      - name: Publish result
+        run: |
+          cat ${{ steps.xeol-scan-json.uotputs.report }} >> $GITHUB_STEP_SUMMARY
