@@ -28,4 +28,4 @@ jobs:
         if: ${{ github.event_name != 'pull_request_target' }}
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: sarif.output.sarif
+          sarif_file: ${{ steps.sarif.outputs.sarif }}
