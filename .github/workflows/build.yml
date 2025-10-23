@@ -44,10 +44,22 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
     - name: Build and push
-      uses: docker/build-push-action@v6
+#      uses: docker/build-push-action@v6
+#      with:
+#        no-cache: true
+#        context: ${{ matrix.component.context }}
+#        file: ${{ matrix.component.file }}
+#        platforms: linux/amd64
+#        push: false
+      uses: testpatchesorg/qubership-workflow-hub/actions/docker-action@docker-action
       with:
-        no-cache: true
-        context: ${{ matrix.component.context }}
-        file: ${{ matrix.component.file }}
+        # ref: v${{ inputs.version }}
+        download-artifact: false
+        #dry-run: ${{ inputs.dry-run }}
+        component: ${{ toJson(matrix.component) }}
         platforms: linux/amd64
-        push: false
+        registry: docker.io,ghcr.io
+        docker-io-login: ${{ vars.DOCKERHUB_USER }}
+        docker-io-token: ${{ DOCKERHUB_RW_TOKEN }}
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
