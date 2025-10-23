@@ -64,5 +64,6 @@ jobs:
         registry: docker.io,ghcr.io
         docker-io-login: ${{ vars.DOCKERHUB_USER }}
         docker-io-token: ${{ secrets.DOCKERHUB_RW_TOKEN }}
+        docker-io-repository: borislavr
       env:
         GITHUB_TOKEN: ${{ github.token }}
