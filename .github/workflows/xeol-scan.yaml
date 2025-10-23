@@ -10,12 +10,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Scan current project
-        uses: xeol-io/xeol-action@v1.0.7
+        uses: xeol-io/xeol-action@v1.1.1
         with:
           path: "."
       - name: Scan current project
         id: xeol-scan-json
-        uses: xeol-io/xeol-action@v1.0.7
+        uses: xeol-io/xeol-action@v1.1.1
         with:
           path: "."
           output-format: json
