@@ -102,13 +102,14 @@ jobs:
     steps:
     - name: "Docker Build"
       id: docker_build
-      uses: netcracker/qubership-workflow-hub/actions/docker-action@main
+      uses: testpatchesorg/qubership-workflow-hub/actions/docker-action@docker-action
       with:
         ref: v${{ inputs.version }}
         download-artifact: false
         dry-run: ${{ inputs.dry-run }}
         component: ${{ toJson(matrix.component) }}
         platforms: ${{ needs.load-docker-build-components.outputs.platforms }}
+        registry: docker.io,ghcr.io
       env:
         GITHUB_TOKEN: ${{ github.token }}
 
