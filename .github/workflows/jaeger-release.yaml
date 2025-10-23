@@ -116,6 +116,8 @@ jobs:
         GITHUB_TOKEN: ${{ github.token }}
 
   github-release:
+    permissions:
+      contents: write
     needs: [docker-build]
     uses: netcracker/qubership-workflow-hub/.github/workflows/release-drafter.yml@main
     with:
