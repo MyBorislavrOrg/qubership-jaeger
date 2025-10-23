@@ -110,6 +110,8 @@ jobs:
         component: ${{ toJson(matrix.component) }}
         platforms: ${{ needs.load-docker-build-components.outputs.platforms }}
         registry: docker.io,ghcr.io
+        docker-io-login: ${{ vars.DOCKERHUB_USER }}
+        docker-io-token: ${{ DOCKERHUB_RW_TOKEN }}
       env:
         GITHUB_TOKEN: ${{ github.token }}
 
