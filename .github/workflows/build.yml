@@ -40,13 +40,13 @@ jobs:
       contents: read
       packages: write
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    - name: Set up QEMU
-      uses: docker/setup-qemu-action@v3
-    - name: Set up Docker Buildx
-      uses: docker/setup-buildx-action@v3
-    - name: Build and push
+#    - name: Checkout
+#      uses: actions/checkout@v4
+#    - name: Set up QEMU
+#      uses: docker/setup-qemu-action@v3
+#    - name: Set up Docker Buildx
+#      uses: docker/setup-buildx-action@v3
+#    - name: Build and push
 #      uses: docker/build-push-action@v6
 #      with:
 #        no-cache: true
@@ -64,6 +64,5 @@ jobs:
         registry: docker.io,ghcr.io
         docker-io-login: ${{ vars.DOCKERHUB_USER }}
         docker-io-token: ${{ secrets.DOCKERHUB_RW_TOKEN }}
-        docker-io-repository: borislavr
       env:
         GITHUB_TOKEN: ${{ github.token }}
