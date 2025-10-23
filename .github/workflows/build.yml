@@ -3,6 +3,16 @@ name: Build Artifacts
 
 on:
   workflow_dispatch:
+    inputs:
+      registry:
+        type: choice
+        description: "registry to push images to (ghcr.io,docker.io)"
+        options:
+          - 'ghcr.io,docker.io'
+          - 'ghcr.io'
+          - 'docker.io'
+          
+          
   # push:
   #   branches:
   #   - '**'
@@ -54,7 +64,7 @@ jobs:
         #dry-run: ${{ inputs.dry-run }}
         component: ${{ toJson(matrix.component) }}
         platforms: linux/amd64
-        registry: docker.io,ghcr.io
+        registry: ${{ inputs.registry }}
         docker-io-login: ${{ vars.DOCKERHUB_USER }}
         docker-io-token: ${{ secrets.DOCKERHUB_RW_TOKEN }}
       env:
