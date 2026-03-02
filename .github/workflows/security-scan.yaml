@@ -48,7 +48,10 @@ on:
         type: boolean
   schedule:
     - cron: "0 3 * * 0" # every Sunday at 03:00 UTC
-
+permissions:
+  contents: read
+  security-events: write
+  packages: read
 jobs:
   debug-packages:
     runs-on: ubuntu-latest
