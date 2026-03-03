@@ -102,6 +102,13 @@ jobs:
     with:
       target: ${{ inputs.target || 'docker' }}
       image: ${{ format('{0}:{1}', matrix.package.path, inputs.tag || 'latest') }}
+      only-high-critical: ${{ inputs.only-high-critical || github.event_name == 'schedule' }}
+      trivy-scan: ${{ inputs.trivy-scan || github.event_name == 'schedule' }}
+      trivy-version: ${{ inputs.trivy-version || 'latest' }}
+      grype-scan: ${{ inputs.grype-scan || github.event_name == 'schedule' }}
+      grype-version: ${{ inputs.grype-version || 'latest' }}
+      only-fixed: ${{ inputs.only-fixed || github.event_name == 'schedule' }}
+      continue-on-error: ${{ inputs.continue-on-error || github.event_name == 'schedule' }}
 
   security-scan-single:
     needs: debug-packages
@@ -111,8 +118,10 @@ jobs:
     with:
       target: ${{ inputs.target || 'docker' }}
       image: ${{ inputs.image }}
-      only-high-critical: ${{ inputs.only-high-critical || true }}
-      trivy-scan: ${{ inputs.trivy-scan || true }}
-      grype-scan: ${{ inputs.grype-scan || true }}
-      only-fixed: ${{ inputs.only-fixed || true }}
-      continue-on-error: ${{ inputs.continue-on-error || true }}
+      only-high-critical: ${{ inputs.only-high-critical }}
+      trivy-scan: ${{ inputs.trivy-scan }}
+      trivy-version: ${{ inputs.trivy-version || 'latest' }}
+      grype-scan: ${{ inputs.grype-scan }}
+      grype-version: ${{ inputs.grype-version || 'latest' }}
+      only-fixed: ${{ inputs.only-fixed }}
+      continue-on-error: ${{ inputs.continue-on-error }}
