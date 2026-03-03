@@ -1,0 +1,23 @@
+---
+name: REUSABLE_TEST
+on:
+  workflow_dispatch:
+    inputs:
+      continue-on-error:
+        type: boolean
+        required: false
+        default: true
+        description: "Continue on error or not"
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Failed step
+        continue-on-error: ${{ inputs.continue-on-error }}
+        run: |
+          echo "This step always fail"
+          exit 1
+      - name: Just a Step
+        run: |
+          echo "Just a Step"
+          exit 0

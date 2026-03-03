@@ -1,0 +1,15 @@
+---
+name: TEST
+on:
+  workflow_dispatch:
+    inputs:
+      continue-on-error:
+        type: boolean
+        required: false
+        default: true
+        description: "Continue on error or not"
+jobs:
+  test:
+    uses: MyBorislavrOrg/qubership-jaeger/.github/workflows/re-test.yaml@main
+    with:
+      continue-on-error: ${{ inputs.continue-on-error }}
