@@ -21,11 +21,21 @@ on:
         required: false
         default: true
         type: boolean
+      trivy-version:
+        description: "Trivy version"
+        required: false
+        default: 'v0.69.2'
+        type: string
       grype-scan:
         description: "Grype scan"
         required: false
         default: true
         type: boolean
+      grype-version:
+        description: "Grype version"
+        required: false
+        default: 'v0.109.0'
+        type: string
       continue-on-error:
         description: "Continue on error"
         required: false
@@ -162,6 +172,7 @@ jobs:
 
       - name: "Grype scan (Docker: High+Critical)"
         if: ${{ inputs.target == 'docker' }}
+        continue-on-error: ${{ inputs.continue-on-error }}
         id: grype-docker
         uses: anchore/scan-action@7037fa011853d5a11690026fb85feee79f4c946c #v7.3.2
         with:
@@ -171,10 +182,11 @@ jobs:
           severity-cutoff: critical
           only-fixed: ${{ inputs.only-fixed }}
           output-format: sarif
-        continue-on-error: ${{ inputs.continue-on-error }}
+          grype-version: ${{ inputs.grype-version }}
 
       - name: "Grype scan (Source: High+Critical)"
         if: ${{ inputs.target == 'source' }}
+        continue-on-error: ${{ inputs.continue-on-error }}
         id: grype-source
         uses: anchore/scan-action@7037fa011853d5a11690026fb85feee79f4c946c #v7.3.2
         with:
@@ -184,7 +196,7 @@ jobs:
           severity-cutoff: critical
           only-fixed: ${{ inputs.only-fixed }}
           output-format: sarif
-        continue-on-error: ${{ inputs.continue-on-error }}
+          grype-version: ${{ inputs.grype-version }}
 
       - name: "Convert Grype SARIF to CSV"
         env:
@@ -296,6 +308,7 @@ jobs:
 
       - name: "Trivy scan (Docker: ${{ env.TRIVY_SEVERITY }})"
         if: ${{ inputs.target == 'docker' }}
+        continue-on-error: ${{ inputs.continue-on-error }}
         id: trivy-docker
         uses: aquasecurity/trivy-action@e368e328979b113139d6f9068e03accaed98a518 #v0.34.1
         with:
@@ -305,11 +318,11 @@ jobs:
           format: "sarif"
           ignore-unfixed: ${{ inputs.only-fixed }}
           limit-severities-for-sarif: true
-          version: "v0.69.2"
-        continue-on-error: ${{ inputs.continue-on-error }}
+          version: ${{ inputs.trivy-version }}
 
       - name: "Trivy scan (Source: ${{ env.TRIVY_SEVERITY }})"
         if: ${{ inputs.target == 'source' }}
+        continue-on-error: ${{ inputs.continue-on-error }}
         id: trivy-source
         uses: aquasecurity/trivy-action@e368e328979b113139d6f9068e03accaed98a518 #v0.34.1
         with:
@@ -319,8 +332,7 @@ jobs:
           format: "sarif"
           ignore-unfixed: ${{ inputs.only-fixed }}
           limit-severities-for-sarif: true
-          version: "v0.69.2"
-        continue-on-error: ${{ inputs.continue-on-error }}
+          version: ${{ inputs.trivy-version }}
 
       - name: "Convert Trivy SARIF to CSV"
         env:
