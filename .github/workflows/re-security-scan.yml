@@ -24,7 +24,7 @@ on:
       trivy-version:
         description: "Trivy version"
         required: false
-        default: 'v0.69.2'
+        default: latest
         type: string
       grype-scan:
         description: "Grype scan"
@@ -34,7 +34,7 @@ on:
       grype-version:
         description: "Grype version"
         required: false
-        default: 'v0.109.0'
+        default: latest
         type: string
       continue-on-error:
         description: "Continue on error"
@@ -169,7 +169,13 @@ jobs:
         uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8  # v6.0.1
         with:
           persist-credentials: false
-
+      - name: Check Grype version
+        run: |
+          if [ "${{ inputs.grype-version }}" == "latest" ]; then
+            echo "GRYPE_VERSION=" >> $GITHUB_ENV
+          else
+            echo "GRYPE_VERSION=${{ inputs.grype-version }}" >> $GITHUB_ENV
+          fi
       - name: "Grype scan (Docker: High+Critical)"
         if: ${{ inputs.target == 'docker' }}
         continue-on-error: ${{ inputs.continue-on-error }}
@@ -182,7 +188,7 @@ jobs:
           severity-cutoff: critical
           only-fixed: ${{ inputs.only-fixed }}
           output-format: sarif
-          grype-version: ${{ inputs.grype-version }}
+          grype-version: ${{ env.GRYPE_VERSION }}
 
       - name: "Grype scan (Source: High+Critical)"
         if: ${{ inputs.target == 'source' }}
@@ -196,7 +202,7 @@ jobs:
           severity-cutoff: critical
           only-fixed: ${{ inputs.only-fixed }}
           output-format: sarif
-          grype-version: ${{ inputs.grype-version }}
+          grype-version: ${{ env.GRYPE_VERSION }}
 
       - name: "Convert Grype SARIF to CSV"
         env:

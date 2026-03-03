@@ -31,11 +31,21 @@ on:
         required: false
         default: true
         type: boolean
+      trivy-version:
+        description: "Trivy version"
+        required: false
+        default: latest
+        type: string
       grype-scan:
         description: "Grype scan"
         required: false
         default: true
         type: boolean
+      grype-version:
+        description: "Grype version"
+        required: false
+        default: latest
+        type: string
       continue-on-error:
         description: "Continue on error"
         required: false
