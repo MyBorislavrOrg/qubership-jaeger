@@ -37,3 +37,7 @@ jobs:
           format: "sarif"
           limit-severities-for-sarif: true
           version: 'v0.65.0'
+      - name: Just a Step
+        run: |
+          echo "Just a Step"
+          exit 0
